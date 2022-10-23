@@ -30,6 +30,10 @@ public class Tile {
     }
     
     // Setters
+    public void setPlowed(boolean isPlowed) {
+        this.isPlowed = isPlowed;
+    }
+    
     public void setOccupied(boolean isOccupied) {
         this.isOccupied = isOccupied;
     }
@@ -55,6 +59,12 @@ public class Tile {
     public void removeWitheredCrop() {
         this.isOccupied = false;
         crop = null;
+    }
+
+    public String toString() {
+        return  "Tile Status: " + (this.isPlowed ? "Plowed\n" : "Unplowed\n") + 
+                "Current Crop: " + (this.crop != null ? crop.getName() + "\n" : "None\n") +
+                "Crop Status - " + (this.crop != null ? "\nDays Planted: " + this.crop.getDaysPlanted() + "\nWater: " + this.crop.getWaterAmt() + "\nFertilizer: " + this.crop.getFertilizerAmt() : "N/A");
     }
 
 }

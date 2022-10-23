@@ -56,7 +56,7 @@ public class Player {
     public boolean subtractCoins(int coins) {
         if (this.wallet >= coins) {
             this.wallet -= coins;
-            System.out.println("Deducted " + coins + " Objectcoins from your wallet");
+            System.out.println("\nDeducted " + coins + " Objectcoins from your wallet");
             return true;
         }
 
@@ -84,5 +84,13 @@ public class Player {
         }
 
         return false;
+    }
+
+    public String toString() {
+        return  "Player Info -" +
+                "\nWallet Balance: " + this.wallet +
+                "\nLevel: " + this.level +
+                "\nExperience: " + this.experience + "/" + (100 + 100 * this.level) +
+                "\nFarmer Type: " + this.farmerType.get(currFarmerType).getName();
     }
 }

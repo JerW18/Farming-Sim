@@ -110,6 +110,19 @@ public class Crop {
         return this.cropCost;
     }
 
+    // Setters
+    public void setWaterAmt(int waterAmt) {
+        this.waterAmt = waterAmt;
+    }
+
+    public void setFertilizerAmt(int fertilizerAmt) {
+        this.fertilizerAmt = fertilizerAmt;
+    }
+
+    public void setDaysPlanted(int daysPlanted) {
+        this.daysPlanted = daysPlanted;
+    }
+
     // Methods    
     public void waterCrop(int waterBonusIncrease) {
         if (this.waterAmt + 1 <= maxWater + waterBonusIncrease) {
@@ -133,7 +146,7 @@ public class Crop {
     }
 
     public boolean isReady() {
-        return (this.daysPlanted == this.daysUntilHarvest && this.waterAmt > this.minWater && this.fertilizerAmt >= this.minFertilizer);
+        return (this.daysPlanted == this.daysUntilHarvest && this.waterAmt >= this.minWater && this.fertilizerAmt >= this.minFertilizer);
     }
 
     public boolean isWithered() {

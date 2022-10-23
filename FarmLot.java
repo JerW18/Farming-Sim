@@ -1,12 +1,15 @@
 import java.util.ArrayList;
 
 public class FarmLot {
-    ArrayList<Tile> tiles;
-    Player player;
+    private ArrayList<Tile> tiles;
+    private Player player;
 
     // Constructors
-    public FarmLot() {
+    public FarmLot(int farmSize) {
         this.tiles = new ArrayList<Tile>();
+        for (int i = 0; i < farmSize; i++) {
+            this.tiles.add(new Tile());
+        }
         this.player = new Player();
     }
 
@@ -68,27 +71,15 @@ public class FarmLot {
         if(this.player.subtractCoins(crop.getBaseSellPrice() - this.player.farmerType.get(this.player.getCurrFarmerType()).getSeedCostReduction())) {
             this.tiles.get(tileIndex).setCrop(crop);
             this.tiles.get(tileIndex).setOccupied(true);
-            System.out.println("Successfully planted" + crop.getName() + " on current tile.");
+            System.out.println("Successfully planted " + crop.getName() + " on current tile.");
         } else {
             System.out.println("Insufficient Objectcoins to plant" + crop.getName());
         }
     }
 
-    public void harvestCrop(Tile tile) {
-        int harvestTotal = tile.getCrop().harvestAmt() * (tile.getCrop().getBaseSellPrice() + this.player.farmerType.get(this.player.getCurrFarmerType()).getBonusProduceEarnings());
-        int waterBonus = (int)(harvestTotal * 0.2 * (tile.getCrop().getWaterAmt() - 1));
-        int fertilizerBonus = (int)(harvestTotal * 0.5 * tile.getCrop().getFertilizerAmt());
-        int finalHarvestPrice = harvestTotal + waterBonus + fertilizerBonus;
-
-        this.player.addCoins(finalHarvestPrice);
-        this.player.addExperiencePoints(tile.getCrop().getExpGain());
-        
-        tile.setOccupied(false);
-        tile.setCrop(null);
-    }
-
     public void harvestCrop(int tileIndex) {
-        int harvestTotal = this.tiles.get(tileIndex).getCrop().harvestAmt() * (this.tiles.get(tileIndex).getCrop().getBaseSellPrice() + this.player.farmerType.get(this.player.getCurrFarmerType()).getBonusProduceEarnings());
+        int temp = this.tiles.get(tileIndex).getCrop().harvestAmt();
+        int harvestTotal = temp * (this.tiles.get(tileIndex).getCrop().getBaseSellPrice() + this.player.farmerType.get(this.player.getCurrFarmerType()).getBonusProduceEarnings());
         int waterBonus = (int)(harvestTotal * 0.2 * (this.tiles.get(tileIndex).getCrop().getWaterAmt() - 1));
         int fertilizerBonus = (int)(harvestTotal * 0.5 * this.tiles.get(tileIndex).getCrop().getFertilizerAmt());
         int finalHarvestPrice = harvestTotal + waterBonus + fertilizerBonus;
@@ -96,15 +87,21 @@ public class FarmLot {
         this.player.addCoins(finalHarvestPrice);
         this.player.addExperiencePoints(this.tiles.get(tileIndex).getCrop().getExpGain());
         
+        System.out.println("Turnips Produced: " + temp);
+        System.out.println("Objectcoins Obtained: " + finalHarvestPrice);
+
+        this.tiles.get(tileIndex).getCrop().setWaterAmt(0);
+        this.tiles.get(tileIndex).getCrop().setFertilizerAmt(0);
+        this.tiles.get(tileIndex).getCrop().setDaysPlanted(0);
+        this.tiles.get(tileIndex).setPlowed(false);
         this.tiles.get(tileIndex).setOccupied(false);
         this.tiles.get(tileIndex).setCrop(null);
+
     }
 
     public void harvestAll() {
-        for (Tile tile : this.tiles) {
-            if (tile.getCrop().isReady()) {
-                harvestCrop(tile);
-            }
+        for (int i = 0; i < this.tiles.size(); i++) {
+            harvestCrop(i);
         }
     }
 
