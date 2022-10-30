@@ -1,3 +1,4 @@
+package Main;
 import java.util.concurrent.ThreadLocalRandom;
 
 /** This class represents a crop, that has a name, 

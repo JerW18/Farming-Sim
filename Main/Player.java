@@ -1,4 +1,7 @@
+package Main;
 import java.util.ArrayList;
+
+import Tool;
 
 /** This class represents a player, who has a wallet to store their
   * Objectcoins, experience to store the amount of experience while

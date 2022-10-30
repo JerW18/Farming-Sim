@@ -1,3 +1,4 @@
+package Main;
 /** This class represents a farmer type, which has a name, 
   * levelRequirement which stores the level requirement needed to upgrade to this farmer type, 
   * bonusProduceEarnings which stores the bonus amount that can be earned,

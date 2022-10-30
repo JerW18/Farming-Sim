@@ -1,3 +1,4 @@
+package Main;
 /** This class represents a tile, that has isPlowed to determine whether the tile is plowed or not,
   * isOccupied to determine whether the tile has a crop/rock on it or not, isRock to determine whether
   * the tile has a rock on it or not, and crop to determine what crop is planted on the tile.

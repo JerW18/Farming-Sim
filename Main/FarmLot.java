@@ -1,3 +1,4 @@
+package Main;
 import java.util.ArrayList;
 
 /** This class represents a farm lot. A farm lot consists of a number of tiles and a player.
