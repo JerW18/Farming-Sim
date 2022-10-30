@@ -1,3 +1,4 @@
+package Main;
 /** This class represents a tool, which contains a name, toolCost
   * where its cost will be stored, and expGain which will store
   * the amount of experience the player will gain.
