@@ -1,10 +1,20 @@
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.DimensionUIResource;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import java.util.ArrayList;
+
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import javax.swing.border.Border;
 
 public class FarmView extends JFrame {
 
