@@ -272,7 +272,7 @@ public class Crop {
       * @return true if the plant has withered and false if otherwise
       */
     public boolean isWithered() {
-        return (this.daysPlanted == this.daysUntilHarvest + 1);
+        return (this.daysPlanted == this.daysUntilHarvest && this.waterAmt <= this.minWater && this.fertilizerAmt <= this.minFertilizer && this.name.compareTo("") != 0);
     }
 
     /** This method copies the crop info into current crop object.

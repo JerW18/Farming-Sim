@@ -85,7 +85,6 @@ public class Tile {
       */
     public void removeRock() {
         this.isRock = false;
-        this.isOccupied = false;
     }
     
     /** This method resets the tile to its default state
