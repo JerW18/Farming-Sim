@@ -94,7 +94,6 @@ public class Player {
     public boolean subtractCoins(int coins) {
         if (this.wallet >= coins) {
             this.wallet -= coins;
-            System.out.println("\nDeducted " + coins + " Objectcoins from your wallet");
             return true;
         }
 

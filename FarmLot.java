@@ -1,9 +1,7 @@
-import java.util.ArrayList;
-
 /** This class represents a farm lot. A farm lot consists of a number of tiles and a player.
   */
 public class FarmLot {
-    private ArrayList<Tile> tiles;
+    private Tile[][] tiles;
     private Player player;
 
     /** Creates a FarmLot object by supplying the number of tiles that will be on the farm. It also
@@ -11,10 +9,12 @@ public class FarmLot {
       * 
       * @param farmSize number of tiles
       */
-    public FarmLot(int farmSize) {
-        this.tiles = new ArrayList<Tile>();
-        for (int i = 0; i < farmSize; i++) {
-            this.tiles.add(new Tile());
+    public FarmLot() {
+        this.tiles = new Tile[5][10];
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 10; j++) {
+                this.tiles[i][j] = new Tile();
+            }
         }
         this.player = new Player();
     }
@@ -23,7 +23,7 @@ public class FarmLot {
       * 
       * @return list of tiles
       */
-    public ArrayList<Tile> getTiles() {
+    public Tile[][] getTiles() {
         return this.tiles;
     }
 
@@ -43,38 +43,32 @@ public class FarmLot {
       * @param tileIndex    index of the tile to perform action on
       * @return returns true if the player has sufficient amount of coins to use tool and false if otherwise
       */
-    public boolean useTool(int toolIndex, int tileIndex) {
-        if (this.player.subtractCoins(player.tools.get(toolIndex).getToolCost())) {
-            this.player.addExperiencePoints(player.tools.get(toolIndex).getExpGain());
+    public boolean useTool(int toolIndex, int tileIndexI, int tileIndexJ) {
+        if (this.player.subtractCoins(this.player.tools.get(toolIndex).getToolCost())) {
+            this.player.addExperiencePoints(this.player.tools.get(toolIndex).getExpGain());
 
             switch (this.player.tools.get(toolIndex).getName()) {
                 case "Plow":
-                    this.tiles.get(tileIndex).setPlowed(true);
-                    System.out.println("Successfully plowed the tile.");
+                    this.tiles[tileIndexI][tileIndexJ].setPlowed(true);
                     break;
             
                 case "Watering Can":
-                    this.tiles.get(tileIndex).getCrop().waterCrop(this.player.farmerType.get(this.player.getCurrFarmerType()).getWaterBonusIncrease());
-                    System.out.println("Successfully watered the crop.");
+                    this.tiles[tileIndexI][tileIndexJ].getCrop().waterCrop(this.player.farmerType.get(this.player.getCurrFarmerType()).getWaterBonusIncrease());
                     break;
 
                 case "Fertilizer":
-                    this.tiles.get(tileIndex).getCrop().fertilizeCrop(this.player.farmerType.get(this.player.getCurrFarmerType()).getFertilizerBonusIncrease());
-                    System.out.println("Successfully fertilized the crop.");
+                    this.tiles[tileIndexI][tileIndexJ].getCrop().fertilizeCrop(this.player.farmerType.get(this.player.getCurrFarmerType()).getFertilizerBonusIncrease());
                     break;
 
                 case "Pickaxe":
-                    this.tiles.get(tileIndex).removeRock();
-                    System.out.println("Successfully removed the rock.");
+                    this.tiles[tileIndexI][tileIndexJ].removeRock();
                     break;
 
                 case "Shovel":
-                    this.tiles.get(tileIndex).resetTile();
-                    System.out.println("Successfully removed the withered crop.");
+                    this.tiles[tileIndexI][tileIndexJ].resetTile();
                     break;
                 
                 default:
-                    System.out.println("Error occured in useTool.");
                     break;
                 
             }
@@ -93,10 +87,10 @@ public class FarmLot {
       * @param crop         crop to be planted on the tile
       * @param tileIndex    index of the tile to plant the crop on
       */
-    public void plantCrop(Crop crop, int tileIndex) {
+    public void plantCrop(Crop crop, int tileIIndex, int tileJIndex) {
         if(this.player.subtractCoins(crop.getBaseSellPrice() - this.player.farmerType.get(this.player.getCurrFarmerType()).getSeedCostReduction())) {
-            this.tiles.get(tileIndex).setCrop(crop);
-            this.tiles.get(tileIndex).setOccupied(true);
+            this.tiles[tileIIndex][tileJIndex].setCrop(crop);
+            this.tiles[tileIIndex][tileJIndex].setOccupied(true);
             System.out.println("Successfully planted " + crop.getName() + " on current tile.");
         } else {
             System.out.println("Insufficient Objectcoins to plant" + crop.getName());
@@ -109,30 +103,19 @@ public class FarmLot {
       * 
       * @param tileIndex    index of the tile where the crop is to be harvested
       */
-    public void harvestCrop(int tileIndex) {
-        int temp = this.tiles.get(tileIndex).getCrop().harvestAmt();
-        int harvestTotal = temp * (this.tiles.get(tileIndex).getCrop().getBaseSellPrice() + this.player.farmerType.get(this.player.getCurrFarmerType()).getBonusProduceEarnings());
-        int waterBonus = (int)(harvestTotal * 0.2 * (this.tiles.get(tileIndex).getCrop().getWaterAmt() - 1));
-        int fertilizerBonus = (int)(harvestTotal * 0.5 * this.tiles.get(tileIndex).getCrop().getFertilizerAmt());
+    public void harvestCrop(int tileIIndex, int tileJIndex) {
+        int temp = this.tiles[tileIIndex][tileJIndex].getCrop().harvestAmt();
+        int harvestTotal = temp * (this.tiles[tileIIndex][tileJIndex].getCrop().getBaseSellPrice() + this.player.farmerType.get(this.player.getCurrFarmerType()).getBonusProduceEarnings());
+        int waterBonus = (int)(harvestTotal * 0.2 * (this.tiles[tileIIndex][tileJIndex].getCrop().getWaterAmt() - 1));
+        int fertilizerBonus = (int)(harvestTotal * 0.5 * this.tiles[tileIIndex][tileJIndex].getCrop().getFertilizerAmt());
         int finalHarvestPrice = harvestTotal + waterBonus + fertilizerBonus;
 
         this.player.addCoins(finalHarvestPrice);
-        this.player.addExperiencePoints(this.tiles.get(tileIndex).getCrop().getExpGain());
+        this.player.addExperiencePoints(this.tiles[tileIIndex][tileJIndex].getCrop().getExpGain());
         
         System.out.println("Turnips Produced: " + temp);
         System.out.println("Objectcoins Obtained: " + finalHarvestPrice);
 
-        this.tiles.get(tileIndex).resetTile();
+        this.tiles[tileIIndex][tileJIndex].resetTile();
     }
-
-    /** This method harvests all the crops that are ready to be harvested in the farm.
-      */
-    public void harvestAll() {
-        for (int i = 0; i < this.tiles.size(); i++) {
-            if (this.tiles.get(i).getCrop().isReady()) {
-                harvestCrop(i);
-            }
-        }
-    }
-
 }

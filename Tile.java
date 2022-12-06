@@ -14,7 +14,7 @@ public class Tile {
         this.isPlowed = false;
         this.isOccupied = false;
         this.isRock = false;
-        this.crop = null;
+        this.crop = new Crop();
     }
 
     /** This method returns whether the tile is plowed or not
@@ -78,7 +78,7 @@ public class Tile {
       * @param crop info of the crop
       */
     public void setCrop(Crop crop) {
-        this.crop = crop;
+        this.crop.copyCrop(crop);
     }
 
     /** This method removes the rock from the tile
@@ -91,21 +91,8 @@ public class Tile {
     /** This method resets the tile to its default state
       */
     public void resetTile() {
-        this.crop.setWaterAmt(0);
-        this.crop.setFertilizerAmt(0);
-        this.crop.setDaysPlanted(0);
         this.isPlowed = false;
         this.isOccupied = false;
-        this.crop = null;
+        this.crop = new Crop();
     }
-
-    public String toString() {
-        return  "Tile Status: " + (this.isPlowed ? "Plowed\n" : "Unplowed\n") + 
-                "Current Crop: " + (this.crop != null ? crop.getName() + "\n" : "None\n") +
-                "Crop Status - " + (this.crop != null ? 
-                                    "\nDays Planted: " + this.crop.getDaysPlanted() + 
-                                    "\nWater: " + this.crop.getWaterAmt() + 
-                                    "\nFertilizer: " + this.crop.getFertilizerAmt() : "N/A");
-    }
-
 }

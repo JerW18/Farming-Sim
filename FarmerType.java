@@ -36,8 +36,6 @@ public class FarmerType {
         this.fertilizerBonusIncrease = fertilizerBonusIncrease;
         this.registrationFee = registrationFee;
     }
-
-    
     
     /** This method returns the name of the farmer type.
       * 
@@ -47,7 +45,6 @@ public class FarmerType {
         return name;
     }
 
-    
     /** This method returns the level requirement of this farmer type.
       * @return level requirement
       */
@@ -55,7 +52,6 @@ public class FarmerType {
         return levelRequirement;
     }
 
-    
     /** This method returns the bonus earnings of this farmer type.
       * 
       * @return bonus earnings
@@ -63,8 +59,7 @@ public class FarmerType {
     public int getBonusProduceEarnings() {
         return bonusProduceEarnings;
     }
-
-    
+ 
     /** This method returns the seed cost reduction of this farmer type.
       * 
       * @return seed cost reduction
@@ -73,7 +68,6 @@ public class FarmerType {
         return seedCostReduction;
     }
 
-    
     /** This method returns the water bonus limit increase of this farmer type.
       * 
       * @return water bonus limit increase 
@@ -82,7 +76,6 @@ public class FarmerType {
         return waterBonusIncrease;
     }
 
-    
     /** This method returns the fertilizer bonus limit increase of this farmer type.
       * 
       * @return fertilizer bonus limit increase
@@ -91,7 +84,6 @@ public class FarmerType {
         return fertilizerBonusIncrease;
     }
 
-    
     /** This method returns the registration fee for this farmer type
       * @return registration fee
       */

@@ -30,6 +30,25 @@ public class Crop {
     private int baseSellPrice;
     private double expGain;
     private int cropCost;
+
+    /** Creates a Crop object by initializing all variables to 0.
+      */
+    public Crop() {
+        this.name = "";
+        this.waterAmt = 0;
+        this.minWater = 0;
+        this.maxWater = 0;
+        this.fertilizerAmt = 0;
+        this.minFertilizer = 0;
+        this.maxFertilizer = 0;
+        this.daysPlanted = 0;
+        this.daysUntilHarvest = 0;
+        this.minProduct = 0;
+        this.maxProduct = 0;
+        this.baseSellPrice = 0;
+        this.expGain = 0;
+        this.cropCost = 0;
+    }
     
     /** Creates a Crop object by supplying the name, minWater, maxWater, minFertilizer, maxFertilizer,
       * daysUntilHarvest, minProduct, maxProduct, baseSellPrice, expGain, and cropCost. This constructor
@@ -256,4 +275,24 @@ public class Crop {
         return (this.daysPlanted == this.daysUntilHarvest + 1);
     }
 
+    /** This method copies the crop info into current crop object.
+      * 
+      * @param crop info of which will be copied
+      */
+    public void copyCrop(Crop crop) {
+        this.name = crop.getName();
+        this.waterAmt = crop.getWaterAmt();
+        this.minWater = crop.getMinWater();
+        this.maxWater = crop.getMaxWater();
+        this.fertilizerAmt = crop.getFertilizerAmt();
+        this.minFertilizer = crop.getMinFertilizer();
+        this.maxFertilizer = crop.getMaxFertilizer();
+        this.daysPlanted = crop.getDaysPlanted();
+        this.daysUntilHarvest = crop.getDaysUntilHarvest();
+        this.minProduct = crop.getMinProduct();
+        this.maxProduct = crop.getMaxProduct();
+        this.baseSellPrice = crop.getBaseSellPrice();
+        this.expGain = crop.getExpGain();
+        this.cropCost = crop.getCropCost();
+    }
 }
