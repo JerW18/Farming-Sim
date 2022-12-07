@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -33,7 +34,7 @@ public class FarmView extends JFrame {
     private JLabel playerInfoFarmerType;
 
     private JPanel tileInfoPanel = new JPanel();
-    private JPanel tileInfoTempPanel = new JPanel();
+    private JPanel tileInfoBorderPanel = new JPanel();
     private JLabel cropInfo;
     private JLabel cropInfoName;
     private JLabel cropInfoDaysPlanted;
@@ -41,6 +42,8 @@ public class FarmView extends JFrame {
     private JLabel cropInfoFertilizerAmt;
 
     private JPanel textPanel = new JPanel();
+    private JLabel cropProduced;
+    private JLabel coinsGained;
 
     private JPanel actionsPanel = new JPanel();
     private JButton nextDayBtn;
@@ -53,6 +56,7 @@ public class FarmView extends JFrame {
     private JButton shovelBtn;
     private JButton harvestBtn;
     private JButton backBtn;
+    private JButton exitBtn;
     private JButton returnBtn;
 
     private JButton turnipBtn;
@@ -140,26 +144,26 @@ public class FarmView extends JFrame {
         this.tileInfoPanel.setLayout(new GridLayout(8, 1));
         this.tileInfoPanel.setVisible(false);
 
-        this.tileInfoTempPanel.setBounds(895, 0, 195, 250);
-        this.tileInfoTempPanel.setBorder(border);
+        this.tileInfoBorderPanel.setBounds(895, 0, 195, 250);
+        this.tileInfoBorderPanel.setBorder(border);
 
-        this.cropInfo = new JLabel("a");
+        this.cropInfo = new JLabel();
         this.cropInfo.setAlignmentX(LEFT_ALIGNMENT);
         this.cropInfo.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        this.cropInfoName = new JLabel("a");
+        this.cropInfoName = new JLabel();
         this.cropInfoName.setAlignmentX(LEFT_ALIGNMENT);
         this.cropInfoName.setFont(new Font("Arial", Font.PLAIN, 15));
 
-        this.cropInfoDaysPlanted = new JLabel("a");
+        this.cropInfoDaysPlanted = new JLabel();
         this.cropInfoDaysPlanted.setAlignmentX(LEFT_ALIGNMENT);
         this.cropInfoDaysPlanted.setFont(new Font("Arial", Font.PLAIN, 15));
 
-        this.cropInfoWaterAmt = new JLabel("a");
+        this.cropInfoWaterAmt = new JLabel();
         this.cropInfoWaterAmt.setAlignmentX(LEFT_ALIGNMENT);
         this.cropInfoWaterAmt.setFont(new Font("Arial", Font.PLAIN, 15));
 
-        this.cropInfoFertilizerAmt = new JLabel("a");
+        this.cropInfoFertilizerAmt = new JLabel();
         this.cropInfoFertilizerAmt.setAlignmentX(LEFT_ALIGNMENT);
         this.cropInfoFertilizerAmt.setFont(new Font("Arial", Font.PLAIN, 15));
 
@@ -170,12 +174,25 @@ public class FarmView extends JFrame {
         this.tileInfoPanel.add(this.cropInfoFertilizerAmt);
 
         this.mainFrame.add(this.tileInfoPanel);
-        this.mainFrame.add(this.tileInfoTempPanel);
+        this.mainFrame.add(this.tileInfoBorderPanel);
     }
 
     private void initializeTextPanel() {
         this.textPanel.setBounds(700, 250, 390, 120);
+        this.textPanel.setLayout(new GridLayout(4, 1));
+        this.tileInfoPanel.setVisible(false);
         this.textPanel.setBorder(border);
+
+        this.cropProduced = new JLabel();
+        this.cropProduced.setAlignmentX(LEFT_ALIGNMENT);
+        this.cropProduced.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        this.coinsGained = new JLabel();
+        this.coinsGained.setAlignmentX(LEFT_ALIGNMENT);
+        this.coinsGained.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        this.textPanel.add(this.cropProduced);
+        this.textPanel.add(this.coinsGained);
 
         this.mainFrame.add(this.textPanel);
     }
@@ -242,6 +259,17 @@ public class FarmView extends JFrame {
         this.backBtn.setFocusable(false);
         this.backBtn.setVisible(false);
 
+        this.exitBtn = new JButton("Return");
+        this.exitBtn.setPreferredSize(new Dimension(120, 60));
+        this.exitBtn.setFocusable(false);
+        this.exitBtn.setVisible(false);
+        this.exitBtn.setAction(new AbstractAction("Exit Game") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
         this.actionsPanel.add(harvestBtn);
         this.actionsPanel.add(plantCropBtn);
         this.actionsPanel.add(plowBtn);
@@ -250,6 +278,7 @@ public class FarmView extends JFrame {
         this.actionsPanel.add(pickaxeBtn);
         this.actionsPanel.add(shovelBtn);
         this.actionsPanel.add(backBtn);
+        this.actionsPanel.add(exitBtn);
     }
 
     private void initializeCropButtons() {
@@ -306,11 +335,15 @@ public class FarmView extends JFrame {
         this.actionsPanel.add(sunflowerBtn);
         this.actionsPanel.add(mangoBtn);
         this.actionsPanel.add(appleBtn);
-        this.actionsPanel.add(returnBtn);
+        this.actionsPanel.add(returnBtn); 
     }
 
     public void setTileInfoVisibility(boolean tileInfoVisibility) {
         this.tileInfoPanel.setVisible(tileInfoVisibility);
+    }
+
+    public void setTextPanelVisibility(boolean textPanelVisibility) {
+        this.textPanel.setVisible(textPanelVisibility);
     }
 
     public void setNextDayBtnVisibility(boolean nextDayBtnVisibility) {
@@ -357,6 +390,10 @@ public class FarmView extends JFrame {
         this.backBtn.setVisible(backBtnVisibility);
     }
 
+    public void setExitBtnVisibility(boolean exitBtnVisibility) {
+        this.exitBtn.setVisible(exitBtnVisibility);
+    }
+
     public void setReturnBtnVisibility(boolean returnBtnVisibility) {
         this.returnBtn.setVisible(returnBtnVisibility);
     }
@@ -391,6 +428,14 @@ public class FarmView extends JFrame {
 
     public void setAppleBtnVisibility(boolean appleBtnVisibility) {
         this.appleBtn.setVisible(appleBtnVisibility);
+    }
+
+    public void setCropProducedText(String string) {
+        this.cropProduced.setText(string);
+    }
+
+    public void setCoinsGainedText(String string) {
+        this.coinsGained.setText(string);
     }
 
     public void setActionListeners(ActionListener[][] farmActionListeners, Action nextDayActionListener, Action registerFarmerActionListener) {

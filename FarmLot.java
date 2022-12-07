@@ -116,7 +116,7 @@ public class FarmLot {
      * 
      * @param tileIndex index of the tile where the crop is to be harvested
      */
-    public void harvestCrop(int tileIIndex, int tileJIndex) {
+    public void harvestCrop(int tileIIndex, int tileJIndex, FarmView farmView) {
         int temp = this.tiles[tileIIndex][tileJIndex].getCrop().harvestAmt();
         int harvestTotal = temp * (this.tiles[tileIIndex][tileJIndex].getCrop().getBaseSellPrice()
                 + this.player.farmerType.get(this.player.getCurrFarmerType()).getBonusProduceEarnings());
@@ -128,6 +128,9 @@ public class FarmLot {
         if (this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Rose") == 0 || this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Tulip") == 0 || this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Sunflower") == 0) {
             finalHarvestPrice = (int)(finalHarvestPrice * 1.1);
         }
+
+        farmView.setCropProducedText(" Produced: " + Integer.toString(temp) + " " + this.tiles[tileIIndex][tileJIndex].getCrop().getName());
+        farmView.setCoinsGainedText(" Gained: " + finalHarvestPrice + " Objectcoins");
 
         this.player.addCoins(finalHarvestPrice);
         this.player.addExperiencePoints(this.tiles[tileIIndex][tileJIndex].getCrop().getExpGain());
@@ -160,5 +163,24 @@ public class FarmLot {
     
             return (count == 0);
         }
+    }
+
+    public boolean isGameOver() {
+        int witheredCount = 0;
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (this.tiles[i][j].isOccupied() && !this.tiles[i][j].isRock() && !this.tiles[i][j].getCrop().isWithered())
+                    return false;
+
+                if (this.player.getWallet() < 7 && (this.tiles[i][j].getCrop().isWithered() || this.tiles[i][j].isRock() || !this.tiles[i][j].isOccupied()))
+                    witheredCount++;
+            }
+        }
+
+        if (this.player.getWallet() < (5 - this.player.getFarmerType().get(this.player.getCurrFarmerType()).getSeedCostReduction()) && witheredCount == 50)
+            return true;
+
+        return (witheredCount == 50);
     }
 }

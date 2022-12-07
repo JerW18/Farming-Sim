@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class FarmController {
 
@@ -105,6 +106,14 @@ public class FarmController {
                 farmView.updatePlayerInfo(mainFarm.getPlayer().getWallet(), mainFarm.getPlayer().getLevel(),
                         mainFarm.getPlayer().getExperience(), mainFarm.getPlayer().getCurrFarmerType(),
                         mainFarm.getPlayer().getFarmerType(), days);
+
+                if (mainFarm.isGameOver()) {
+                    JOptionPane.showMessageDialog(null, "You have lost!", "Game Over", JOptionPane.OK_OPTION);
+                    
+                    hideButtons();
+
+                    farmView.setExitBtnVisibility(true);
+                }
             }
         };
 
@@ -587,10 +596,12 @@ public class FarmController {
                         Action harvestActionListener = new AbstractAction("Harvest Crop") {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                mainFarm.harvestCrop(currentI, currentJ);
+                                mainFarm.harvestCrop(currentI, currentJ, farmView);
 
                                 hideButtons();
                                 showButtons();
+                                
+                                farmView.setTextPanelVisibility(true);
                                 mainFarm.getPlayer().updateLevel();
                                 farmView.updateFarmTileImage(mainFarm.getTiles()[currentI][currentJ], unplowedLand,
                                         plowedLand, currentI, currentJ);
@@ -626,6 +637,8 @@ public class FarmController {
     }
 
     public void hideButtons() {
+        farmView.setTextPanelVisibility(false);
+
         farmView.setNextDayBtnVisibility(false);
         farmView.setRegisterFarmerBtnVisibility(false);
         farmView.setPlantCropBtnVisibility(false);

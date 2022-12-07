@@ -24,7 +24,7 @@ public class Player {
      * upgrades that the player can upgrade to.
      */
     public Player() {
-        this.wallet = 10000000;
+        this.wallet = 100;
         this.experience = 0;
         this.level = 0;
         this.currFarmerType = 0;
