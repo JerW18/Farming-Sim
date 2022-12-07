@@ -84,7 +84,6 @@ public class FarmController {
 
         farmView.initializeFarmTileImage(mainFarm, unplowedLand, rockLand);
 
-        // TODO: Not Done
         Action nextDayActionListener = new AbstractAction("Next Day") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -167,7 +166,6 @@ public class FarmController {
                         hideButtons();
                         showButtons();
 
-                        // TODO: Not Done
                         Action plantCropActionListener = new AbstractAction("Select Crop") {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -481,7 +479,6 @@ public class FarmController {
                             }
                         };
 
-                        // TODO: Not Done
                         Action plowActionListener = new AbstractAction("Plow - Free") {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -500,7 +497,6 @@ public class FarmController {
                             }
                         };
 
-                        // TODO: Not Done
                         Action wateringCanActionListener = new AbstractAction("Watering Can - Free") {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -522,7 +518,6 @@ public class FarmController {
                             }
                         };
 
-                        // TODO: Not Done
                         Action fertilizerActionListener = new AbstractAction("Fertilizer - 10 Objectcoins") {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -592,7 +587,6 @@ public class FarmController {
                             }
                         };
 
-                        // TODO: Not Done
                         Action harvestActionListener = new AbstractAction("Harvest Crop") {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -612,7 +606,6 @@ public class FarmController {
                             }
                         };
 
-                        // TODO: Not Done
                         Action backActionListener = new AbstractAction("Back") {
                             @Override
                             public void actionPerformed(ActionEvent e) {

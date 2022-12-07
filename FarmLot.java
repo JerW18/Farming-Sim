@@ -7,11 +7,8 @@ public class FarmLot {
     private Player player;
 
     /**
-     * Creates a FarmLot object by supplying the number of tiles that will be on the
-     * farm. It also
+     * Creates a FarmLot object with 50 tiles. It also
      * constructs the appropriate number of tiles and a player.
-     * 
-     * @param farmSize number of tiles
      */
     public FarmLot() {
         this.tiles = new Tile[5][10];
@@ -49,10 +46,11 @@ public class FarmLot {
      * tool and adds the appropriate amount of experience to the player's
      * experience.
      * 
-     * @param toolIndex index of the desired tool
-     * @param tileIndex index of the tile to perform action on
-     * @return returns true if the player has sufficient amount of coins to use tool
-     *         and false if otherwise
+     * @param toolIndex  index of the desired tool
+     * @param tileIndexI Y index of the tile to perform action on
+     * @param tileIndexJ X index of the tile to perform action on
+     * @return returns true if the player has successfully used the tool and false
+     *         if otherwise
      */
     public boolean useTool(int toolIndex, int tileIndexI, int tileIndexJ) {
         if (this.player.checkCoins(this.player.tools.get(toolIndex).getToolCost())) {
@@ -95,16 +93,15 @@ public class FarmLot {
     }
 
     /**
-     * This method checks if the player has sufficient amount fo coins to plant the
-     * desired crop and will
-     * plant the crop on the given tile.
+     * This method will plant the desired crop on the given tile.
      * 
-     * @param crop      crop to be planted on the tile
-     * @param tileIndex index of the tile to plant the crop on
+     * @param crop       crop to be planted on the tile
+     * @param tileIndexI Y index of the tile to plant the crop on
+     * @param tileIndexJ X index of the tile to plant the crop on
      */
     public void plantCrop(Crop crop, int tileIIndex, int tileJIndex) {
         this.tiles[tileIIndex][tileJIndex].setCrop(crop);
-        this.tiles[tileIIndex][tileJIndex].setOccupied(true);          
+        this.tiles[tileIIndex][tileJIndex].setOccupied(true);
     }
 
     /**
@@ -112,9 +109,13 @@ public class FarmLot {
      * harvesting the tile and adds the
      * amount to the player's wallet. It also gives the player the appropriate
      * amount of experience that the crop
-     * gives when harvested. It will finally reset the tile to its default state.
+     * gives when harvested. It will display the amount of crop and money the player
+     * obtained to the View.
+     * It will finally reset the tile to its default state.
      * 
-     * @param tileIndex index of the tile where the crop is to be harvested
+     * @param tileIndexI Y index of the tile to plant the crop on
+     * @param tileIndexJ X index of the tile to plant the crop on
+     * @param farmView GUI where the amount will be displayed on
      */
     public void harvestCrop(int tileIIndex, int tileJIndex, FarmView farmView) {
         int temp = this.tiles[tileIIndex][tileJIndex].getCrop().harvestAmt();
@@ -125,11 +126,14 @@ public class FarmLot {
                 * this.tiles[tileIIndex][tileJIndex].getCrop().getFertilizerAmt());
         int finalHarvestPrice = harvestTotal + waterBonus + fertilizerBonus;
 
-        if (this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Rose") == 0 || this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Tulip") == 0 || this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Sunflower") == 0) {
-            finalHarvestPrice = (int)(finalHarvestPrice * 1.1);
+        if (this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Rose") == 0
+                || this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Tulip") == 0
+                || this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Sunflower") == 0) {
+            finalHarvestPrice = (int) (finalHarvestPrice * 1.1);
         }
 
-        farmView.setCropProducedText(" Produced: " + Integer.toString(temp) + " " + this.tiles[tileIIndex][tileJIndex].getCrop().getName());
+        farmView.setCropProducedText(
+                " Produced: " + Integer.toString(temp) + " " + this.tiles[tileIIndex][tileJIndex].getCrop().getName());
         farmView.setCoinsGainedText(" Gained: " + finalHarvestPrice + " Objectcoins");
 
         this.player.addCoins(finalHarvestPrice);
@@ -138,47 +142,68 @@ public class FarmLot {
         this.tiles[tileIIndex][tileJIndex].resetTile();
     }
 
+    /** This method checks the surrounding tiles to see if it is vacant.
+     * 
+     *  @param tileIIndex Y index of the tile to plant the crop on
+     *  @param tileJIndex X index of the tile to plant the crop on
+     *  @return true if the surrounding tiles are vacant and false if otherwise
+     */
+
     public boolean isVacant(int tileIIndex, int tileJIndex) {
         int count = 0;
 
         if ((tileIIndex - 1 < 0) || (tileIIndex + 1 > 4) || (tileJIndex - 1 < 0) || (tileJIndex + 1 > 9)) {
             return false;
         } else {
-            if (this.tiles[tileIIndex - 1][tileJIndex - 1].isOccupied() || this.tiles[tileIIndex - 1][tileJIndex - 1].isRock())
+            if (this.tiles[tileIIndex - 1][tileJIndex - 1].isOccupied()
+                    || this.tiles[tileIIndex - 1][tileJIndex - 1].isRock())
                 count++;
             if (this.tiles[tileIIndex - 1][tileJIndex].isOccupied() || this.tiles[tileIIndex - 1][tileJIndex].isRock())
                 count++;
-            if (this.tiles[tileIIndex - 1][tileJIndex + 1].isOccupied() || this.tiles[tileIIndex - 1][tileJIndex + 1].isRock())
+            if (this.tiles[tileIIndex - 1][tileJIndex + 1].isOccupied()
+                    || this.tiles[tileIIndex - 1][tileJIndex + 1].isRock())
                 count++;
             if (this.tiles[tileIIndex][tileJIndex + 1].isOccupied() || this.tiles[tileIIndex][tileJIndex + 1].isRock())
                 count++;
             if (this.tiles[tileIIndex][tileJIndex - 1].isOccupied() || this.tiles[tileIIndex][tileJIndex - 1].isRock())
                 count++;
-            if (this.tiles[tileIIndex + 1][tileJIndex - 1].isOccupied() || this.tiles[tileIIndex + 1][tileJIndex - 1].isRock())
+            if (this.tiles[tileIIndex + 1][tileJIndex - 1].isOccupied()
+                    || this.tiles[tileIIndex + 1][tileJIndex - 1].isRock())
                 count++;
             if (this.tiles[tileIIndex + 1][tileJIndex].isOccupied() || this.tiles[tileIIndex + 1][tileJIndex].isRock())
                 count++;
-            if (this.tiles[tileIIndex + 1][tileJIndex + 1].isOccupied() || this.tiles[tileIIndex + 1][tileJIndex + 1].isRock())
+            if (this.tiles[tileIIndex + 1][tileJIndex + 1].isOccupied()
+                    || this.tiles[tileIIndex + 1][tileJIndex + 1].isRock())
                 count++;
-    
+
             return (count == 0);
         }
     }
+
+    /** This method checks if the player can continue playing
+     * 
+     *  @return true if the player cannot continue playing and false if otherwise
+     */
 
     public boolean isGameOver() {
         int witheredCount = 0;
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
-                if (this.tiles[i][j].isOccupied() && !this.tiles[i][j].isRock() && !this.tiles[i][j].getCrop().isWithered())
+                if (this.tiles[i][j].isOccupied() && !this.tiles[i][j].isRock()
+                        && !this.tiles[i][j].getCrop().isWithered())
                     return false;
 
-                if (this.player.getWallet() < 7 && (this.tiles[i][j].getCrop().isWithered() || this.tiles[i][j].isRock() || !this.tiles[i][j].isOccupied()))
+                if (this.player.getWallet() < 7 && (this.tiles[i][j].getCrop().isWithered() || this.tiles[i][j].isRock()
+                        || !this.tiles[i][j].isOccupied()))
                     witheredCount++;
             }
         }
 
-        if (this.player.getWallet() < (5 - this.player.getFarmerType().get(this.player.getCurrFarmerType()).getSeedCostReduction()) && witheredCount == 50)
+        if (this.player
+                .getWallet() < (5
+                        - this.player.getFarmerType().get(this.player.getCurrFarmerType()).getSeedCostReduction())
+                && witheredCount == 50)
             return true;
 
         return (witheredCount == 50);

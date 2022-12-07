@@ -196,30 +196,6 @@ public class Crop {
         return this.cropCost;
     }
 
-    /** This method sets the new amount of water
-      * 
-      * @param waterAmt new water amount
-      */
-    public void setWaterAmt(int waterAmt) {
-        this.waterAmt = waterAmt;
-    }
-
-    /** This method sets the new amount of fertilizer
-      * 
-      * @param fertilizerAmt new fertilizer amount
-      */
-    public void setFertilizerAmt(int fertilizerAmt) {
-        this.fertilizerAmt = fertilizerAmt;
-    }
-
-    /** This method sets the new number of days
-      * 
-      * @param daysPlanted new number of days
-      */
-    public void setDaysPlanted(int daysPlanted) {
-        this.daysPlanted = daysPlanted;
-    }
-
     /** This method adds 1 to the amount of water the crop currently has.
       * It won't add more water if it has reach the max amount of water the crop can take.
       * 

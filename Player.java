@@ -97,14 +97,9 @@ public class Player {
     }
 
     /**
-     * This method checks if there is sufficient coins to be subtracted from the
-     * player,
-     * then subtracts an amount of coins from the player's wallet if coins are
-     * sufficient.
+     * This method subtracts an amount of coins from the player's wallet 
      * 
      * @param coins amount of coins to be subtracted
-     * @return true if there is sufficient coins in the wallet and false if
-     *         otherwise
      */
     public void subtractCoins(int coins) {
         this.wallet -= coins;
@@ -155,6 +150,12 @@ public class Player {
         return false;
     }
 
+    /**
+     * This method checks if the player has enough coins to perform the specific
+     * task.
+     * 
+     * @return true if player has sufficient coins and flase if otherwise
+     */
     public boolean checkCoins(int cost) {
         return (this.wallet >= cost);
     }
