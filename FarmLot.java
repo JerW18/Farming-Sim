@@ -96,8 +96,8 @@ public class FarmLot {
      * This method will plant the desired crop on the given tile.
      * 
      * @param crop       crop to be planted on the tile
-     * @param tileIndexI Y index of the tile to plant the crop on
-     * @param tileIndexJ X index of the tile to plant the crop on
+     * @param tileIIndex Y index of the tile to plant the crop on
+     * @param tileJIndex X index of the tile to plant the crop on
      */
     public void plantCrop(Crop crop, int tileIIndex, int tileJIndex) {
         this.tiles[tileIIndex][tileJIndex].setCrop(crop);
@@ -113,8 +113,8 @@ public class FarmLot {
      * obtained to the View.
      * It will finally reset the tile to its default state.
      * 
-     * @param tileIndexI Y index of the tile to plant the crop on
-     * @param tileIndexJ X index of the tile to plant the crop on
+     * @param tileIIndex Y index of the tile to plant the crop on
+     * @param tileJIndex X index of the tile to plant the crop on
      * @param farmView GUI where the amount will be displayed on
      */
     public void harvestCrop(int tileIIndex, int tileJIndex, FarmView farmView) {

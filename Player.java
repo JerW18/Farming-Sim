@@ -154,6 +154,7 @@ public class Player {
      * This method checks if the player has enough coins to perform the specific
      * task.
      * 
+     * @param cost cost of the item/task
      * @return true if player has sufficient coins and flase if otherwise
      */
     public boolean checkCoins(int cost) {
