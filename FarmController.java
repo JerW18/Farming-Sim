@@ -117,35 +117,50 @@ public class FarmController {
         };
 
         StringBuilder registerFarmerBtnString = new StringBuilder();
-        registerFarmerBtnString.append("Register Farmer - ");
-        registerFarmerBtnString.append(Integer.toString(mainFarm.getPlayer().getFarmerType()
-                .get(mainFarm.getPlayer().getCurrFarmerType() + 1).getRegistrationFee()));
+        if (mainFarm.getPlayer().getCurrFarmerType() < 3) {
+            registerFarmerBtnString.append("Register Farmer - ");
+            registerFarmerBtnString.append(Integer.toString(mainFarm.getPlayer().getFarmerType()
+                    .get((mainFarm.getPlayer().getCurrFarmerType() + 1)).getRegistrationFee()));
+        }
+
         Action registerFarmerActionListener = new AbstractAction(registerFarmerBtnString.toString()) {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (mainFarm.getPlayer().registerFarmerType()) {
-
-                    farmView.updatePlayerInfo(mainFarm.getPlayer().getWallet(),
-                            mainFarm.getPlayer().getLevel(),
-                            mainFarm.getPlayer().getExperience(),
-                            mainFarm.getPlayer().getCurrFarmerType(),
-                            mainFarm.getPlayer().getFarmerType(), days);
-                } else {
-                    
-                    farmView.setRegisterFarmerBtnColor(Color.RED);
-
-                    final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-                    executorService.scheduleAtFixedRate(new Runnable() {
-                        @Override
-                        public void run() {
-                            farmView.setRegisterFarmerBtnColor(null);
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (mainFarm.getPlayer().registerFarmerType()) {
+                        
+                        StringBuilder newRegisterFarmerBtnString = new StringBuilder();
+                        hideButtons();
+                        if (mainFarm.getPlayer().getCurrFarmerType() < 3) {
+                            newRegisterFarmerBtnString.append("Register Farmer - ");
+                            newRegisterFarmerBtnString.append(Integer.toString(mainFarm.getPlayer().getFarmerType()
+                                    .get((mainFarm.getPlayer().getCurrFarmerType() + 1)).getRegistrationFee()));
+                            farmView.GetRegisterFarmerBtn().setText(newRegisterFarmerBtnString.toString());
+                            farmView.setRegisterFarmerBtnVisibility(true);
                         }
-                    }, 1, 2, TimeUnit.SECONDS);
 
+                        farmView.setNextDayBtnVisibility(true);
+    
+                        farmView.updatePlayerInfo(mainFarm.getPlayer().getWallet(),
+                                mainFarm.getPlayer().getLevel(),
+                                mainFarm.getPlayer().getExperience(),
+                                mainFarm.getPlayer().getCurrFarmerType(),
+                                mainFarm.getPlayer().getFarmerType(), days);
+                    } else {
+                        
+                        farmView.setRegisterFarmerBtnColor(Color.RED);
+    
+                        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                        executorService.scheduleAtFixedRate(new Runnable() {
+                            @Override
+                            public void run() {
+                                farmView.setRegisterFarmerBtnColor(null);
+                            }
+                        }, 1, 2, TimeUnit.SECONDS);
+    
+                    }
+    
                 }
-
-            }
-        };
+            };
 
         ActionListener[][] farmActionListener = new ActionListener[5][10];
         for (int i = 0; i < 5; i++) {
@@ -484,8 +499,8 @@ public class FarmController {
                             public void actionPerformed(ActionEvent e) {
                                 mainFarm.useTool(0, currentI, currentJ);
 
-                                farmView.setPlantCropBtnVisibility(true);
-                                farmView.setPlowBtnVisibility(false);
+                                hideButtons();
+                                showButtons();
 
                                 mainFarm.getPlayer().updateLevel();
                                 farmView.updateFarmTileImage(mainFarm.getTiles()[currentI][currentJ], unplowedLand,
@@ -613,7 +628,8 @@ public class FarmController {
                                 hideButtons();
                                 mainFarm.getPlayer().updateLevel();
                                 farmView.setNextDayBtnVisibility(true);
-                                farmView.setRegisterFarmerBtnVisibility(true);
+                                if (mainFarm.getPlayer().getCurrFarmerType() < 3)
+                                    farmView.setRegisterFarmerBtnVisibility(true);
                                 farmView.getFarmBtn()[currentI][currentJ].setBackground(null);
                                 farmView.setTileInfoVisibility(false);
                             }
@@ -664,19 +680,11 @@ public class FarmController {
             farmView.setPlowBtnVisibility(true);
 
         if (mainFarm.getTiles()[currentI][currentJ].isOccupied() && !mainFarm.getTiles()[currentI][currentJ].isRock()
-                && (mainFarm.getTiles()[currentI][currentJ].getCrop()
-                        .getWaterAmt() < (mainFarm.getTiles()[currentI][currentJ].getCrop().getMaxWater()
-                                + mainFarm.getPlayer().farmerType.get(mainFarm.getPlayer().getCurrFarmerType())
-                                        .getWaterBonusIncrease()))
                 && !mainFarm.getTiles()[currentI][currentJ].getCrop().isWithered()
                 && !mainFarm.getTiles()[currentI][currentJ].getCrop().isReady())
             farmView.setWateringCanBtnVisibility(true);
 
         if (mainFarm.getTiles()[currentI][currentJ].isOccupied() && !mainFarm.getTiles()[currentI][currentJ].isRock()
-                && (mainFarm.getTiles()[currentI][currentJ].getCrop()
-                        .getFertilizerAmt() < (mainFarm.getTiles()[currentI][currentJ].getCrop().getMaxFertilizer()
-                                + mainFarm.getPlayer().farmerType.get(mainFarm.getPlayer().getCurrFarmerType())
-                                        .getFertilizerBonusIncrease()))
                 && !mainFarm.getTiles()[currentI][currentJ].getCrop().isWithered()
                 && !mainFarm.getTiles()[currentI][currentJ].getCrop().isReady())
             farmView.setFertilizerBtnVisibility(true);
@@ -684,7 +692,7 @@ public class FarmController {
         if (mainFarm.getTiles()[currentI][currentJ].isRock())
             farmView.setPickaxeBtnVisibility(true);
 
-        if (mainFarm.getTiles()[currentI][currentJ].isOccupied() && !mainFarm.getTiles()[currentI][currentJ].isRock())
+        if (mainFarm.getTiles()[currentI][currentJ].isOccupied() || mainFarm.getTiles()[currentI][currentJ].isRock())
             farmView.setShovelBtnVisibility(true);
 
         if (mainFarm.getTiles()[currentI][currentJ].isOccupied()

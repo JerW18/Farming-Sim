@@ -55,29 +55,45 @@ public class FarmLot {
     public boolean useTool(int toolIndex, int tileIndexI, int tileIndexJ) {
         if (this.player.checkCoins(this.player.tools.get(toolIndex).getToolCost())) {
             this.player.subtractCoins(this.player.tools.get(toolIndex).getToolCost());
-            this.player.addExperiencePoints(this.player.tools.get(toolIndex).getExpGain());
-
+            
             switch (this.player.tools.get(toolIndex).getName()) {
                 case "Plow":
+                    this.player.addExperiencePoints(this.player.tools.get(toolIndex).getExpGain());
                     this.tiles[tileIndexI][tileIndexJ].setPlowed(true);
                     break;
 
                 case "Watering Can":
-                    this.tiles[tileIndexI][tileIndexJ].getCrop().waterCrop(
-                            this.player.farmerType.get(this.player.getCurrFarmerType()).getWaterBonusIncrease());
+                    if (this.tiles[tileIndexI][tileIndexJ].getCrop()
+                    .getWaterAmt() < (this.tiles[tileIndexI][tileIndexJ].getCrop().getMaxWater()
+                            + this.player.farmerType.get(this.player.getCurrFarmerType())
+                                    .getWaterBonusIncrease())) {
+                        this.player.addExperiencePoints(this.player.tools.get(toolIndex).getExpGain());
+                        this.tiles[tileIndexI][tileIndexJ].getCrop().waterCrop(
+                                this.player.farmerType.get(this.player.getCurrFarmerType()).getWaterBonusIncrease());
+                    }
                     break;
 
                 case "Fertilizer":
-                    this.tiles[tileIndexI][tileIndexJ].getCrop().fertilizeCrop(
-                            this.player.farmerType.get(this.player.getCurrFarmerType()).getFertilizerBonusIncrease());
+                    if ((this.tiles[tileIndexI][tileIndexJ].getCrop()
+                    .getFertilizerAmt() < (this.tiles[tileIndexI][tileIndexJ].getCrop().getMaxFertilizer()
+                            + this.player.farmerType.get(this.player.getCurrFarmerType())
+                                    .getFertilizerBonusIncrease()))) {
+                        this.player.addExperiencePoints(this.player.tools.get(toolIndex).getExpGain());
+                        this.tiles[tileIndexI][tileIndexJ].getCrop().fertilizeCrop(
+                                this.player.farmerType.get(this.player.getCurrFarmerType()).getFertilizerBonusIncrease());
+                    }
                     break;
 
                 case "Pickaxe":
+                    this.player.addExperiencePoints(this.player.tools.get(toolIndex).getExpGain());
                     this.tiles[tileIndexI][tileIndexJ].removeRock();
                     break;
 
                 case "Shovel":
-                    this.tiles[tileIndexI][tileIndexJ].resetTile();
+                    if (this.tiles[tileIndexI][tileIndexJ].isOccupied()) {
+                        this.player.addExperiencePoints(this.player.tools.get(toolIndex).getExpGain());
+                        this.tiles[tileIndexI][tileIndexJ].resetTile();
+                    }
                     break;
 
                 default:
@@ -119,17 +135,17 @@ public class FarmLot {
      */
     public void harvestCrop(int tileIIndex, int tileJIndex, FarmView farmView) {
         int temp = this.tiles[tileIIndex][tileJIndex].getCrop().harvestAmt();
-        int harvestTotal = temp * (this.tiles[tileIIndex][tileJIndex].getCrop().getBaseSellPrice()
+        double harvestTotal = temp * (this.tiles[tileIIndex][tileJIndex].getCrop().getBaseSellPrice()
                 + this.player.farmerType.get(this.player.getCurrFarmerType()).getBonusProduceEarnings());
-        int waterBonus = (int) (harvestTotal * 0.2 * (this.tiles[tileIIndex][tileJIndex].getCrop().getWaterAmt() - 1));
-        int fertilizerBonus = (int) (harvestTotal * 0.5
+        double waterBonus = (harvestTotal * 0.2 * (this.tiles[tileIIndex][tileJIndex].getCrop().getWaterAmt() - 1));
+        double fertilizerBonus = (harvestTotal * 0.5
                 * this.tiles[tileIIndex][tileJIndex].getCrop().getFertilizerAmt());
-        int finalHarvestPrice = harvestTotal + waterBonus + fertilizerBonus;
+        double finalHarvestPrice = harvestTotal + waterBonus + fertilizerBonus;
 
         if (this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Rose") == 0
                 || this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Tulip") == 0
                 || this.tiles[tileIIndex][tileJIndex].getCrop().getName().compareTo("Sunflower") == 0) {
-            finalHarvestPrice = (int) (finalHarvestPrice * 1.1);
+            finalHarvestPrice = (finalHarvestPrice * 1.1);
         }
 
         farmView.setCropProducedText(

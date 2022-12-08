@@ -240,7 +240,7 @@ public class Crop {
     public boolean isReady() {
         return (this.daysPlanted == this.daysUntilHarvest && 
                 this.waterAmt >= this.minWater && 
-                this.fertilizerAmt >= this.minFertilizer);
+                this.fertilizerAmt >= this.minFertilizer && !isWithered());
     }
 
     /** This method checks if the crop has withered or not
@@ -248,7 +248,8 @@ public class Crop {
       * @return true if the plant has withered and false if otherwise
       */
     public boolean isWithered() {
-        return (this.daysPlanted == this.daysUntilHarvest && this.waterAmt <= this.minWater && this.fertilizerAmt <= this.minFertilizer && this.name.compareTo("") != 0);
+        return ((this.daysPlanted == this.daysUntilHarvest && this.waterAmt < this.minWater && this.fertilizerAmt < this.minFertilizer && this.name.compareTo("") != 0) || 
+                (this.daysPlanted > this.daysUntilHarvest && this.waterAmt <= this.maxWater && this.fertilizerAmt <= this.maxFertilizer && this.name.compareTo("") != 0));
     }
 
     /** This method copies the crop info into current crop object.

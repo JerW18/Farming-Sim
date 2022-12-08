@@ -358,6 +358,10 @@ public class FarmView extends JFrame {
         this.registerFarmerBtn.setBackground(color);
     }
 
+    public JButton GetRegisterFarmerBtn() {
+        return this.registerFarmerBtn;
+    }
+
     public void setPlantCropBtnVisibility(boolean plantCropBtnVisibility) {
         this.plantCropBtn.setVisible(plantCropBtnVisibility);
     }
@@ -580,7 +584,7 @@ public class FarmView extends JFrame {
         }
     }
 
-    public void updatePlayerInfo(int wallet, int level, double experience, int currFarmerType,
+    public void updatePlayerInfo(double wallet, int level, double experience, int currFarmerType,
             ArrayList<FarmerType> farmerType, int day) {
         this.playerInfoDay.setText(" Day " + day);
         this.playerInfo.setText(" Player Info -");

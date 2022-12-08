@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * the player can upgrade to.
  */
 public class Player {
-    private int wallet;
+    private double wallet;
     private double experience;
     private int level;
     private int currFarmerType;
@@ -46,7 +46,7 @@ public class Player {
      * 
      * @return amount of coins in the wallet
      */
-    public int getWallet() {
+    public double getWallet() {
         return this.wallet;
     }
 
@@ -110,7 +110,7 @@ public class Player {
      * 
      * @param coins amount of coins to be added
      */
-    public void addCoins(int coins) {
+    public void addCoins(double coins) {
         this.wallet += coins;
     }
 
