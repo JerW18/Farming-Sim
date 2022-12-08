@@ -578,6 +578,7 @@ public class FarmController {
                                     mainFarm.getPlayer().updateLevel();
                                     farmView.updateFarmTileImage(mainFarm.getTiles()[currentI][currentJ], unplowedLand,
                                             plowedLand, currentI, currentJ);
+                                    farmView.updateTileInfo(mainFarm.getTiles()[currentI][currentJ], mainFarm);
                                     farmView.updatePlayerInfo(mainFarm.getPlayer().getWallet(),
                                             mainFarm.getPlayer().getLevel(),
                                             mainFarm.getPlayer().getExperience(),
